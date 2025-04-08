@@ -1,33 +1,36 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, TextField, Button, Typography } from '@mui/material';
+import { useAuth } from '../../context/AuthContext';
+import { TextField, Button, Typography, Box } from '@mui/material';
 
 const Register = () => {
+  const { register, error } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulate registration
-    if (email && password) {
-      alert("Account created!");
-      // Navigate to login or dashboard
+    const userData = { fullName, role: 'user' }; // adjust as needed
+    try {
+      await register(email, password, userData);
       navigate('/login');
-    } else {
-      alert("Please fill all fields");
+    } catch (err) {
+      console.error(err);
     }
   };
 
   return (
-    <Box sx={{ maxWidth: 400, mx: 'auto', mt: 8 }}>
-      <Typography variant="h4" gutterBottom>Register</Typography>
+    <Box sx={{ maxWidth: 400, mx: 'auto', p: 4 }}>
+      <Typography variant="h5" gutterBottom>Register</Typography>
+      {error && <Typography color="error">{error}</Typography>}
       <form onSubmit={handleSubmit}>
-        <TextField fullWidth label="Email" margin="normal" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <TextField fullWidth type="password" label="Password" margin="normal" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <Button fullWidth variant="contained" type="submit" sx={{ mt: 2 }}>Register</Button>
+        <TextField label="Full Name" fullWidth margin="normal" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+        <TextField label="Email" fullWidth margin="normal" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <TextField label="Password" type="password" fullWidth margin="normal" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>Register</Button>
       </form>
-      <Button onClick={() => navigate('/login')} sx={{ mt: 2 }}>Already have an account? Login</Button>
     </Box>
   );
 };

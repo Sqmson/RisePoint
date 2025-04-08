@@ -117,12 +117,6 @@ export const useAuth = () => {
   return context;
 };
 
-export function useProtectedRoute() {
-  const { currentUser, loading } = useAuth();
-  if (loading) return true;
-  return !!currentUser;
-}
-
 export function useRoleAccess(allowedRoles) {
   const { userData, loading } = useAuth();
   if (loading) return false;
