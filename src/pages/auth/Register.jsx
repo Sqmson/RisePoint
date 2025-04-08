@@ -1,61 +1,35 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Box, TextField, Button, Typography } from '@mui/material';
 
-function Register({ onRegister }) {
+const Register = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const [error, setError] = useState(null);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Use the local API for registration
-    fetch('http://localhost:3000/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: event.target.username.value,
-        password: event.target.password.value,
-      }),
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch');
-        }
-        return response.json();
-      })
-      .then(data => {
-        // If registration is successful, call onRegister and navigate to the home page
-        onRegister();
-        navigate('/');
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        setError(error);
-      });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Simulate registration
+    if (email && password) {
+      alert("Account created!");
+      // Navigate to login or dashboard
+      navigate('/login');
+    } else {
+      alert("Please fill all fields");
+    }
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <form className="auth-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <input type="text" id="username" name="username" />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input type="password" id="password" name="password" />
-          </div>
-          <button type="submit" className="auth-button">Register</button>
-        </form>
-        <div className="auth-links">
-          <a href="#">Forgot password?</a>
-        </div>
-        {error && <div className="error-message">Error: {error.message}</div>}
-      </div>
-    </div>
+    <Box sx={{ maxWidth: 400, mx: 'auto', mt: 8 }}>
+      <Typography variant="h4" gutterBottom>Register</Typography>
+      <form onSubmit={handleSubmit}>
+        <TextField fullWidth label="Email" margin="normal" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <TextField fullWidth type="password" label="Password" margin="normal" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <Button fullWidth variant="contained" type="submit" sx={{ mt: 2 }}>Register</Button>
+      </form>
+      <Button onClick={() => navigate('/login')} sx={{ mt: 2 }}>Already have an account? Login</Button>
+    </Box>
   );
-}
+};
 
 export default Register;

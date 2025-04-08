@@ -29,8 +29,8 @@ function App() {
                 <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
                 <Route path="/about" element={isAuthenticated ? <About /> : <Navigate to="/login" />} />
                 <Route path="/programs" element={isAuthenticated ? <Programs /> : <Navigate to="/login" />} />
-                <Route path="/login" element={<Login onLogin={handleLogin} />} />
-                <Route path="/register" element={<Register onRegister={handleLogin} />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
               </Routes>
             </Box>
