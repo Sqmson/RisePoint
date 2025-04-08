@@ -1,33 +1,69 @@
-# Logs
-logs
+# --------------------------------------------------------
+# Node dependencies
+# --------------------------------------------------------
+node_modules/
+# Node modules is where npm or Yarn installs the dependencies.
+# This directory is large and can be reinstalled from package.json.
 
+# --------------------------------------------------------
+# Build output directories and files
+# --------------------------------------------------------
+build/
+dist/
+# The build/ or dist/ folder contains the compiled code.
+# It is generated from your source code and should not be tracked.
 
-*.log
+# --------------------------------------------------------
+# Caching directories and temporary files
+# --------------------------------------------------------
+.cache/
+# Temporary cache files for faster rebuilds during development.
+
+# --------------------------------------------------------
+# Environment configuration files
+# --------------------------------------------------------
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+# Sensitive environment files are ignored so that credentials and API keys are not exposed.
+# They can be configured in your deployment environment separately.
+
+# --------------------------------------------------------
+# Log files
+# --------------------------------------------------------
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+*.log
+# These logs provide useful debugging information during development,
+# but they should not be part of your version control.
 
-node_modules
-dist
-dist-ssr
-*.local
-
+# --------------------------------------------------------
 # Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
+# --------------------------------------------------------
+.idea/
+.vscode/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
-node_modules
-node_modules
-node_modules
-node_modules
-node_modules
-node_modules
-node_modules
+# Editor-specific files (such as those from Visual Studio Code, WebStorm, etc.)
+# are excluded to prevent personal settings from affecting the project.
+
+# --------------------------------------------------------
+# OS generated files
+# --------------------------------------------------------
+.DS_Store
+Thumbs.db
+# Operating system files (e.g., macOS Finder metadata) can clutter your repository.
+
+# --------------------------------------------------------
+# Miscellaneous
+# --------------------------------------------------------
+coverage/
+# Coverage directory created by testing tools like Jest.
