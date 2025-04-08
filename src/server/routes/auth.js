@@ -56,4 +56,29 @@ router.post('/login', async (req, res) => {
   }
 });
 
-module.exports = router; 
+module.exports = router;
+
+// filepath: /d:/year 2/SEM 2/Software Engineering/RisePoint/src/index.js
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import { app, analytics } from './firebase/firebase'; // Import Firebase configuration
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+
+// filepath: /d:/year 2/SEM 2/Software Engineering/RisePoint/package.json
+
+// filepath: /d:/year 2/SEM 2/Software Engineering/RisePoint/vite.config.js
+
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+
+
+

@@ -1,130 +1,43 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/common/Header';
-import Footer from './components/common/Footer';
-import { AuthProvider } from './contexts/AuthContext';
-
-// Pages
-import Home from './components/pages/Home';
-import About from './components/pages/About';
-import Programs from './components/pages/Programs';
-import Fundraising from './components/pages/Fundraising';
-import MonitoringEvaluation from './components/pages/MonitoringEvaluation';
-
-// Economic Features
-import BusinessIncubation from './components/features/economic/BusinessIncubation';
-import MicrofinanceAccess from './components/features/economic/MicrofinanceAccess';
-import SkillsTraining from './components/features/economic/SkillsTraining';
-import MarketLinkages from './components/features/economic/MarketLinkages';
-
-// Agricultural Features
-import FarmerSupport from './components/features/agriculture/FarmerSupport';
-import AgriBusinessDevelopment from './components/features/agriculture/AgriBusinessDevelopment';
-import MarketAccess from './components/features/agriculture/MarketAccess';
-
-// Education Features
-import VocationalTraining from './components/features/education/VocationalTraining';
-import DigitalSkills from './components/features/education/DigitalSkills';
-import EntrepreneurshipEducation from './components/features/education/EntrepreneurshipEducation';
-
-// New components
-import Login from './components/features/registration/Login';
-import Dashboard from './components/features/dashboard/Dashboard';
-import AdminDashboard from './components/features/admin/AdminDashboard';
-import ProtectedRoute from './components/common/ProtectedRoute';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { ThemeProvider, createTheme, CssBaseline, Box } from '@mui/material';
+import Sidebar from './components/layout/Sidebar';
+import Navbar from './components/layout/Navbar';
+import Home from './pages/public/Home';
+import About from './pages/public/About';
+import Programs from './pages/public/Programs';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import ForgotPassword from './pages/auth/ForgotPassword';
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
+
   return (
-    <Router>
-      <AuthProvider>
-        <div className="app">
-          <Header />
-          
-          <main className="main-content">
-            <Routes>
-              {/* Main Pages */}
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/programs" element={<Programs />} />
-              <Route path="/fundraising" element={<Fundraising />} />
-              <Route path="/impact/monitoring" element={<MonitoringEvaluation />} />
-
-              {/* Economic Empowerment Routes */}
-              <Route path="/programs/economic/business-incubation" element={<BusinessIncubation />} />
-              <Route path="/programs/economic/microfinance" element={<MicrofinanceAccess />} />
-              <Route path="/programs/economic/skills-training" element={<SkillsTraining />} />
-              <Route path="/programs/economic/market-linkages" element={<MarketLinkages />} />
-
-              {/* Agricultural Development Routes */}
-              <Route path="/programs/agriculture/farmer-support" element={<FarmerSupport />} />
-              <Route path="/programs/agriculture/agribusiness" element={<AgriBusinessDevelopment />} />
-              <Route path="/programs/agriculture/market-access" element={<MarketAccess />} />
-
-              {/* Education & Skills Routes */}
-              <Route path="/programs/education/vocational" element={<VocationalTraining />} />
-              <Route path="/programs/education/digital" element={<DigitalSkills />} />
-              <Route path="/programs/education/entrepreneurship" element={<EntrepreneurshipEducation />} />
-
-              {/* Impact Routes */}
-              <Route path="/impact/stories" element={<ImpactStories />} />
-              <Route path="/impact/reports" element={<ImpactReports />} />
-              <Route path="/impact/research" element={<Research />} />
-
-              {/* Resource Routes */}
-              <Route path="/resources/learning" element={<LearningCenter />} />
-              <Route path="/resources/tools" element={<BusinessTools />} />
-              <Route path="/resources/market" element={<MarketResources />} />
-              <Route path="/resources/financial" element={<FinancialServices />} />
-
-              {/* Support Routes */}
-              <Route path="/emergency-support" element={<EmergencySupport />} />
-              <Route path="/apply/:program" element={<ProgramApplication />} />
-              <Route path="/donate" element={<DonationPage />} />
-              <Route path="/contact" element={<Contact />} />
-
-              {/* Login Routes */}
-              <Route path="/login" element={<Login />} />
-              <Route 
-                path="/dashboard" 
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/admin" 
-                element={
-                  <ProtectedRoute roles={['admin']}>
-                    <AdminDashboard />
-                  </ProtectedRoute>
-                } 
-              />
-
-              {/* Error Routes */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </main>
-
-          <Footer />
-
-          {/* Emergency Support Float Button */}
-          <div className="emergency-float">
-            <a href="tel:+256800100200" className="emergency-button">
-              Need Help? Call Now
-            </a>
-          </div>
-
-          {/* Progress Tracker */}
-          <div className="impact-float">
-            <div className="impact-counter">
-              <span className="counter-number">2,500+</span>
-              <span className="counter-label">Families Supported</span>
-            </div>
-          </div>
-        </div>
-      </AuthProvider>
-    </Router>
+    <ThemeProvider theme={createTheme()} >
+      <CssBaseline />
+        <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: '#f5f5f5' }}>
+          <Navbar />
+          <Box sx={{ display: 'flex', flex: 1, mt: '64px' }}>
+            <Sidebar />
+            <Box component="main" sx={{ flexGrow: 1, p: 3, overflow: 'auto', minHeight: 'calc(100vh - 64px)' }}>
+              <Routes>
+                <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
+                <Route path="/about" element={isAuthenticated ? <About /> : <Navigate to="/login" />} />
+                <Route path="/programs" element={isAuthenticated ? <Programs /> : <Navigate to="/login" />} />
+                <Route path="/login" element={<Login onLogin={handleLogin} />} />
+                <Route path="/register" element={<Register onRegister={handleLogin} />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+              </Routes>
+            </Box>
+          </Box>
+        </Box>
+    </ThemeProvider>
   );
 }
 
-export default App; 
+export default App;
